@@ -19,20 +19,20 @@ app.use(bodyParser.json())
 
 async function connectToDatabase() {
 	const client = new MongoClient(mongoDbUri, {
-	  useNewUrlParser: true,
-	  useUnifiedTopology: true,
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
 	});
-  
+
 	try {
-	  await client.connect();
-	  console.log('Connected to the database');
-	  return client.db(dbName);
+		await client.connect();
+		console.log('Connected to the database');
+		return client.db(dbName);
 	} catch (error) {
-	  console.error('Error connecting to the database:', error);
-	  throw error;
+		console.error('Error connecting to the database:', error);
+		throw error;
 	}
-  }
-  
+}
+
 // Serve profile.html and profile.js
 app.use('/profile', express.static(path.join(__dirname, 'static')));
 app.use('/profile', express.static(path.join(__dirname, 'script')));
@@ -60,10 +60,10 @@ app.post('/api/change-password', async (req, res) => {
 
 		const db = await connectToDatabase();
 		await db.collection('users').updateOne(
-		{ _id },
-		{
-			$set: { password },
-		}
+			{ _id },
+			{
+				$set: { password },
+			}
 		);
 		res.json({ status: 'ok' });
 	} catch (error) {
@@ -73,69 +73,69 @@ app.post('/api/change-password', async (req, res) => {
 });
 
 app.post('/api/login', async (req, res) => {
-    try {
-        const { username, password } = req.body;
-        console.log('Login request:', { username, password });
+	try {
+		const { username, password } = req.body;
+		console.log('Login request:', { username, password });
 
-        const db = await connectToDatabase();
-        const user = await db.collection('users').findOne({ username });
+		const db = await connectToDatabase();
+		const user = await db.collection('users').findOne({ username });
 
-        if (!user) {
-            console.log('User not found');
-            return res.json({ status: 'error', error: 'Invalid username/password' });
-        }
+		if (!user) {
+			console.log('User not found');
+			return res.json({ status: 'error', error: 'Invalid username/password' });
+		}
 
-        console.log('User found:', user);
+		console.log('User found:', user);
 
-        // Log hashed password from the database for debugging
-        console.log('Hashed Password from Database:', user.password);
+		// Log hashed password from the database for debugging
+		console.log('Hashed Password from Database:', user.password);
 
-        const passwordMatch = await bcrypt.compare(password, user.password);
+		const passwordMatch = await bcrypt.compare(password, user.password);
 
-        if (passwordMatch) {
-            console.log('Password matched');
-            const token = jwt.sign(
-                {
-                    id: user._id,
-                    username: user.username
-                },
-                JWT_SECRET
-            );
+		if (passwordMatch) {
+			console.log('Password matched');
+			const token = jwt.sign(
+				{
+					id: user._id,
+					username: user.username
+				},
+				JWT_SECRET
+			);
 
-            return res.json({ status: 'ok', data: token });
-        }
+			return res.json({ status: 'ok', data: token });
+		}
 
-        console.log('Password did not match');
+		console.log('Password did not match');
 
-        res.json({ status: 'error', error: 'Invalid username/password' });
-    } catch (error) {
-        console.error('Login error:', error);
-        res.json({ status: 'error', error: 'Login failed' });
-    }
+		res.json({ status: 'error', error: 'Invalid username/password' });
+	} catch (error) {
+		console.error('Login error:', error);
+		res.json({ status: 'error', error: 'Login failed' });
+	}
 });
 
 app.post('/api/register', async (req, res) => {
-	const { username, password: plainTextPassword } = req.body
+    const { username, password: plainTextPassword, name, location, availability, role, gender, age } = req.body;
 
-	if (!username || typeof username !== 'string') {
-		return res.json({ status: 'error', error: 'Invalid username' })
-	}
+    if (!username || typeof username !== 'string') {
+        return res.json({ status: 'error', error: 'Invalid username' });
+    }
 
-	if (!plainTextPassword || typeof plainTextPassword !== 'string') {
-		return res.json({ status: 'error', error: 'Invalid password' })
-	}
+    if (!plainTextPassword || typeof plainTextPassword !== 'string') {
+        return res.json({ status: 'error', error: 'Invalid password' });
+    }
 
-	if (plainTextPassword.length < 5) {
-		return res.json({
-			status: 'error',
-			error: 'Password too small. Should be atleast 6 characters'
-		})
-	}
+    if (plainTextPassword.length < 5) {
+        return res.json({
+            status: 'error',
+            error: 'Password too small. Should be at least 6 characters'
+        });
+    }
 
-	const password = await bcrypt.hash(plainTextPassword, 10)
-	const db = await connectToDatabase();
+    const password = await bcrypt.hash(plainTextPassword, 10);
+    const db = await connectToDatabase();
 
-	try {
+    try {
         // Check if the username already exists
         const existingUser = await db.collection('users').findOne({ username });
 
@@ -144,11 +144,19 @@ app.post('/api/register', async (req, res) => {
         }
 
         // If username is not taken, insert the new user
-        const response = await db.collection('users').insertOne({
+        const userToInsert = {
             username,
             password,
-        });
-        
+            name,
+            location,
+            availability,
+            role,
+            gender,
+            age
+        };
+
+        const response = await db.collection('users').insertOne(userToInsert);
+
         console.log('User created successfully: ', response);
         res.json({ status: 'ok' });
     } catch (error) {

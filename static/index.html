@@ -66,8 +66,23 @@
 
     <!-- Registration Form -->
     <form id="register-form">
-        <input type="text" autocomplete="off" id="reg-username" placeholder="Username" />
-        <input type="password" autocomplete="off" id="reg-password" placeholder="Password" />
+        <input type="text" autocomplete="off" id="reg-username" placeholder="Username" required />
+        <input type="password" autocomplete="off" id="reg-password" placeholder="Password" required />
+        <input type="text" autocomplete="off" id="name" placeholder="Full Name" required />
+        <input type="text" autocomplete="off" id="location" placeholder="Location" required />
+        <select id="availability" required>
+            <option value="full-time">Full Time</option>
+            <option value="part-time">Part Time</option>
+        </select>
+        <select id="role" required>
+            <option value="nanny">Looking for a Nanny</option>
+            <option value="parent">Wanting to be a Nanny</option>
+        </select>
+        <select id="gender" required>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+        <input type="number" id="age" placeholder="Age" required />
         <input type="submit" value="Register" />
 
         <p>Already have an account? <a href="#" onclick="toggleForm('login-form')">Login here</a>.</p>
@@ -97,7 +112,7 @@
             if (result.status === 'ok') {
                 // Everything went fine
                 // Redirect to home page after successful login
-            	window.location.href = 'hirewithconfidence.html';
+            	window.location.href = '/servicesoffered.html';
 
             } else {
                 alert(result.error);
@@ -112,6 +127,12 @@
             event.preventDefault();
             const regUsername = document.getElementById('reg-username').value;
             const regPassword = document.getElementById('reg-password').value;
+            const name = document.getElementById('name').value;
+            const location = document.getElementById('location').value;
+            const availability = document.getElementById('availability').value;
+            const role = document.getElementById('role').value;
+            const gender = document.getElementById('gender').value;
+            const age = document.getElementById('age').value;
 
             const result = await fetch('/api/register', {
                 method: 'POST',
@@ -120,14 +141,20 @@
                 },
                 body: JSON.stringify({
                     username: regUsername,
-                    password: regPassword
+                    password: regPassword,
+                    name: name,
+                    location: location,
+                    availability: availability,
+                    role: role,
+                    gender: gender,
+                    age: age
                 })
             }).then((res) => res.json())
 
             if (result.status === 'ok') {
                 // Everything went fine
                 // Redirect to home page after successful login
-            	window.location.href = '/profile.html';
+            	window.location.href = '/servicesoffered.html';
             } else {
                 alert(result.error);
             }
