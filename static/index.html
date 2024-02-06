@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login / Register</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: none; /* Initially hide both forms */
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        #login-form {
+            display: block; /* Display login form initially */
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Login / Register</h1>
+
+    <!-- Login Form -->
+    <form id="login-form">
+        <input type="text" autocomplete="off" id="username" placeholder="Username" />
+        <input type="password" autocomplete="off" id="password" placeholder="Password" />
+        <input type="submit" value="Login" />
+
+        <p>Don't have an account? <a href="#" onclick="toggleForm('register-form')">Register here</a>.</p>
+    </form>
+
+    <!-- Registration Form -->
+    <form id="register-form">
+        <input type="text" autocomplete="off" id="reg-username" placeholder="Username" />
+        <input type="password" autocomplete="off" id="reg-password" placeholder="Password" />
+        <input type="submit" value="Register" />
+
+        <p>Already have an account? <a href="#" onclick="toggleForm('login-form')">Login here</a>.</p>
+    </form>
+
+    <script>
+        // Your existing script for login
+        const loginForm = document.getElementById('login-form');
+        loginForm.addEventListener('submit', login);
+
+        async function login(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const result = await fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username,
+                    password
+                })
+            }).then((res) => res.json())
+
+            if (result.status === 'ok') {
+                // Everything went fine
+                // Redirect to home page after successful login
+            	window.location.href = 'hirewithconfidence.html';
+
+            } else {
+                alert(result.error);
+            }
+        }
+
+        // Additional script for registration
+        const registerForm = document.getElementById('register-form');
+        registerForm.addEventListener('submit', registerUser);
+
+        async function registerUser(event) {
+            event.preventDefault();
+            const regUsername = document.getElementById('reg-username').value;
+            const regPassword = document.getElementById('reg-password').value;
+
+            const result = await fetch('/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: regUsername,
+                    password: regPassword
+                })
+            }).then((res) => res.json())
+
+            if (result.status === 'ok') {
+                // Everything went fine
+                // Redirect to home page after successful login
+            	window.location.href = '/profile.html';
+            } else {
+                alert(result.error);
+            }
+        }
+
+        // Function to toggle between login and registration forms
+        function toggleForm(formId) {
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'none';
+
+            const formToDisplay = document.getElementById(formId);
+            formToDisplay.style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>
