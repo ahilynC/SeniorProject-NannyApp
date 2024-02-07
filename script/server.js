@@ -171,6 +171,19 @@ app.post('/api/register', async (req, res) => {
     }
 });
 
+// Endpoint to fetch profiles
+app.get('/api/profiles', async (req, res) => {
+    try {
+        const db = await connectToDatabase();
+        const profiles = await db.collection('users').find({ role: 'parent' }).toArray();
+        res.json({ status: 'ok', data: profiles });
+    } catch (error) {
+        console.error('Error fetching profiles:', error);
+        res.json({ status: 'error', error: 'Failed to fetch profiles' });
+    }
+});
+
+
 app.listen(9999, () => {
 	console.log('Server up at 9999')
 })
