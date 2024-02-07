@@ -30,27 +30,28 @@
 <section id="services">
     <h2>Our Services</h2>
     <div class="dropdown">
-        <select>
+        <select id="serviceDropdown">
             <option value="" disabled selected>Select a service</option>
-            <option value="full-time">Full-time Nannies</option>
-            <option value="part-time">Part-time Nannies</option>
-            <option value="live-in">Live-in Nannies</option>
-            <option value="babysitters">Babysitters</option>
-            <option value="night-nannies">Night Nannies</option>
+            <option value="FullTime.html">Full-time Nannies</option>
+            <option value="PartTime.html">Part-time Nannies</option>
+            <option value="LiveIn.html">Live-in Nannies</option>
+            <option value="Requirements.html">Requirements</option>
         </select>
+        <button onclick="redirectToService()">Go</button>
     </div>
 </section>
 
 <section id="how-it-works">
     <h2>How It Works</h2>
     <div class="dropdown">
-        <select>
+        <select id="howItWorksDropdown">
             <option value="" disabled selected>Select an option</option>
             <option value="signup.html">Sign Up</option>
             <option value="browseprofiles.html">Browse Profiles</option>
             <option value="connectpage.html">Connect</option>
             <option value="hirewithconfidence.html">Hire with Confidence</option>
         </select>
+        <button onclick="redirectToHowItWorks()">Go</button>
     </div>
 </section>
 
@@ -72,6 +73,22 @@
 <footer>
     <p>&copy; 2024 TenderCare Nannies. All rights reserved.</p>
 </footer>
+
+<script>
+    function redirectToService() {
+        var selectedService = document.getElementById("serviceDropdown").value;
+        if (selectedService) {
+            window.location.href = selectedService;
+        }
+    }
+
+    function redirectToHowItWorks() {
+        var selectedOption = document.getElementById("howItWorksDropdown").value;
+        if (selectedOption) {
+            window.location.href = selectedOption;
+        }
+    }
+</script>
 
 </body>
 </html>
