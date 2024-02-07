@@ -2,7 +2,6 @@ const express = require('express')
 const path = require('path')
 const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser')
-const mongoose = require('mongoose')
 const User = require('../model/user')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
