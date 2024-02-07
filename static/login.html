@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #login-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #login-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #ae83bb88;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #8626aca1;
+        }
+    </style>
+</head>
+<body>
+    <div id="login-container">
+        <h2>Login</h2>
+
+<form id="login-form">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+
+    <button type="button" onclick="login()" id="login-button">Login</button>
+    <p id="error-message" style="color: red;"></p>
+</form>
+
+<script>
+ 
+async function login() {
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
+
+    // Check if the provided username and password match the desired credentials
+    if (username === 'example' && password === 'password') {
+        // Display a success message
+        document.getElementById("error-message").style.color = 'green';
+        document.getElementById("error-message").innerText = 'Login successful! Redirecting...';
+
+        // You may want to redirect the user or perform other actions on successful login
+        // For now, let's simulate a redirect after 2 seconds
+        setTimeout(() => {
+            window.location.href = '/dashboard'; // Replace '/dashboard' with your actual redirect URL
+        }, 2000);
+    } else {
+        // If unsuccessful, display an error message
+        document.getElementById("error-message").style.color = 'red';
+        document.getElementById("error-message").innerText = 'Login failed. Please check your username and password.';
+    }
+}
+</script>
+<!-- ... (your existing HTML) ... -->
+
+    
+</body>
+</html>
