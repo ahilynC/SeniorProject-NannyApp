@@ -1,6 +1,17 @@
 /* styles.css */
 
 /* Reset styles */
+:root {
+    --primary-color: #333;
+    --secondary-color: #fff;
+    --accent-color: #ffd700;
+    --border-color: #ccc;
+    --background-color: #ab8fa5;
+    --text-color: #333;
+    --button-background: #333;
+    --button-hover-background: #555;
+}
+
 body, h1, h2, h3, p, ul, ol, li, blockquote {
     margin: 0;
     padding: 0;
@@ -19,8 +30,8 @@ body, h1, h2, h3, p, ul, ol, li, blockquote {
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
-    background-color: #ab8fa5;
-    color: #333;
+    background-color: var(--background-color);
+    color: var(--text-color);
     margin: 0;
     padding: 0;
     text-align: center; /* Center text */
@@ -28,8 +39,8 @@ body {
 
 /* Header styles */
 header {
-    background-color: #333;
-    color: #fff;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
     padding: 20px 0;
 }
 
@@ -46,34 +57,34 @@ nav ul li {
 }
 
 nav ul li a {
-    color: #fff;
+    color: var(--secondary-color);
     text-decoration: none;
     font-size: 16px;
     transition: color 0.3s ease;
 }
 
 nav ul li a:hover {
-    color: #ffd700;
+    color: var(--accent-color);
 }
 
 /* Dropdown styles */
 .dropdown select {
     padding: 10px;
     font-size: 16px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     width: 100%;
     box-sizing: border-box;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    background-color: #fff;
+    background-color: var(--secondary-color);
     cursor: pointer;
 }
 
 .dropdown select:focus {
     outline: none;
-    border-color: #5b9dd9;
+    border-color: var(--accent-color);
 }
 
 .dropdown select option {
@@ -88,18 +99,18 @@ blockquote {
 
 /* Footer styles */
 footer {
-    background-color: #333;
-    color: #fff;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
     padding: 20px 0;
 }
 
 /* Form styles */
 form {
     width: 300px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     padding: 20px;
     border-radius: 8px;
-    background-color: #fff;
+    background-color: var(--secondary-color);
 }
 
 .form-group {
@@ -115,7 +126,7 @@ input {
     width: 100%;
     padding: 10px;
     font-size: 16px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     box-sizing: border-box;
 }
@@ -123,8 +134,8 @@ input {
 button {
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #333;
-    color: #fff;
+    background-color: var(--button-background);
+    color: var(--secondary-color);
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -132,7 +143,7 @@ button {
 }
 
 button:hover {
-    background-color: #555;
+    background-color: var(--button-hover-background);
 }
 
 p {
@@ -143,7 +154,7 @@ p {
 /* Profile card styles */
 .profile-card {
     width: 300px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     margin-bottom: 20px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -166,3 +177,51 @@ p {
 .profile-info p {
     margin-bottom: 5px;
 }
+
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 16px;
+    z-index: 1000; /* Ensure it appears above other content */
+}
+
+.back-button:hover {
+    background-color: #555;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+th, td {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 8px;
+}
+th {
+    background-color: #f2f2f2;
+}
+td:hover {
+    background-color: #f2f2f2;
+    cursor: pointer;
+}
+.selected {
+    background-color: #b3d9ff;
+}
+#makeAppointmentBtn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
