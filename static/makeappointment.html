@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Appointment</title>
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
+    <style>
+        /* Add your styling here */
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="datetime-local"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Schedule Appointment</h1>
+
+    <form id="appointment-form">
+        <!-- Your form inputs go here -->
+        <label for="date-time">Date and Time:</label>
+        <input type="datetime-local" id="date-time" name="date-time" required>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+
+        function storeToken(token) {
+            localStorage.setItem('token', token);
+        }
+
+        // Function to store JWT token in session storage
+        function storeTokenInSession(token) {
+            sessionStorage.setItem('token', token);
+        }
+        function getUserId() {
+            // Retrieve the JWT token from local storage or session storage
+            const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
+
+            // Decode the JWT token to extract user information
+            if (token) {
+                try {
+                    // Decode the token
+                    const decodedToken = jwt_decode(token);
+                    console.log("Decoded Token:", decodedToken);
+                    // Assuming the decoded token contains the user ID
+                    const userId = decodedToken.id;
+                    return userId;
+                } catch (error) {
+                    console.error('Error decoding token:', error);
+                    return null;
+                }
+            } else {
+                console.error('Token not found');
+                return null;
+            }
+        }
+
+        // Function to get username from the JWT token
+        function getUsername() {
+            const token = localStorage.getItem('token');
+            if (token) {
+                try {
+                    const decodedToken = jwt_decode(token);
+                    // Adjust the property name based on your JWT structure
+                    return decodedToken.username; // Assuming 'username' is the property name
+                } catch (error) {
+                    console.error('Error decoding token:', error);
+                    return null;
+                }
+            } else {
+                console.error('Token not found');
+                return null;
+            }
+        }
+
+        // Add event listener to the appointment form only if it's found
+        const appointmentForm = document.getElementById('appointment-form');
+        if (appointmentForm) {
+            appointmentForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                // Prepare data to send to server
+                const appointmentData = {
+                    dateTime: document.getElementById('date-time').value ,
+                    userId: getUserId(), // Corrected this line
+                    username: getUsername()
+                };
+
+                console.log('Sending appointment data:', appointmentData);
+                // Send appointment data to server
+                try {
+                    const response = await fetch('/api/appointments', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(appointmentData)
+                    });
+                    const result = await response.json();
+                    if (result.status === 'ok') {
+                        alert('Appointment scheduled successfully!');
+                    } else {
+                        alert('Failed to schedule appointment. Please try again later.');
+                    }
+                } catch (error) {
+                    console.error('Error scheduling appointment:', error);
+                    alert('An error occurred while scheduling appointment. Please try again later.');
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>

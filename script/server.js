@@ -182,6 +182,54 @@ app.get('/api/profiles', async (req, res) => {
     }
 });
 
+// API endpoint to create a new appointment
+app.post('/api/appointments', async (req, res) => {
+    try {
+        const db = await connectToDatabase();
+        console.log("Connected to database successfully");
+        // Rest of your code...
+    } catch (error) {
+        console.error("Database connection failed", error);
+        // Handle error appropriately
+    }
+    
+    try {
+        // Extract appointment details from the request body
+        const dateTime = req.body.dateTime;
+        const userId = req.body.userId;
+        const username = req.body.username; 
+
+        console.log("Received appointment data:", req.body); // For debugging
+
+        // Connect to the MongoDB database
+        const db = await connectToDatabase();
+
+        if (!db) {
+            console.error('Database connection failed');
+            return res.status(500).json({ status: 'error', error: 'Database connection failed' });
+        }
+    
+        // Insert the new appointment into the appointments collection
+        const result = await db.collection('appointments').insertOne({
+            dateTime,
+            userId,
+            username
+        });
+
+        console.log("Insertion result:", result.acknowledged); // For debugging
+
+        // Check if the insertion was successful
+        if (result.acknowledged === true) {
+            // Return the newly created appointment
+            res.json({ status: 'ok', data: result.ops[0] });
+        } else {
+            console.error('Failed to create appointment: No operation results found');
+            res.status(500).json({ status: 'error', error: 'Failed to create appointment: No operation results found' });
+        }
+    } catch (error) {
+      
+    }
+});
 
 app.listen(9999, () => {
 	console.log('Server up at 9999')

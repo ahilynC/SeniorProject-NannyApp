@@ -55,7 +55,20 @@ function displayProfiles(profiles) {
         profileCard.appendChild(profileInfo);
 
         container.appendChild(profileCard);
-    });
+    })
+    if (container) {
+        container.addEventListener('click', (event) => {
+            const profileCard = event.target.closest('.profile-card');
+            if (profileCard) {
+                // Retrieve the username from the clicked profile card
+                const username = profileCard.dataset.username;
+                // Redirect to the appointment page with the selected profile's username
+                window.location.href = `/makeappointment.html?profile=${username}`;
+            }
+        });
+    } else {
+        console.error('Container element not found');
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
