@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        .profile-info {
+            margin-bottom: 20px;
+        }
+        .profile-info label {
+            font-weight: bold;
+        }
+        .profile-info p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>View Profile</h1>
+        <div class="profile-info">
+            <label for="name">Name:</label>
+            <p id="name"></p>
+        </div>
+        <div class="profile-info">
+            <label for="location">Location:</label>
+            <p id="location"></p>
+        </div>
+        <div class="profile-info">
+            <label for="availability">Availability:</label>
+            <p id="availability"></p>
+        </div>
+        <div class="profile-info">
+            <label for="role">Role:</label>
+            <p id="role"></p>
+        </div>
+        <div class="profile-info">
+            <label for="gender">Gender:</label>
+            <p id="gender"></p>
+        </div>
+        <div class="profile-info">
+            <label for="age">Age:</label>
+            <p id="age"></p>
+        </div>
+    </div>
+
+    <script>
+        function fetchUserProfile() {
+            const token = localStorage.getItem('token');
+            if (token) {
+                try {
+                    const decodedToken = jwt_decode(token);
+                    // Assuming the decoded token contains the user ID
+                    const userId = decodedToken.id;
+
+                    // Fetch user profile data from the server using the user ID
+                    fetch(`/api/users/${userId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            // Update profile information on the page
+                            document.getElementById('name').textContent = data.name;
+                            document.getElementById('location').textContent = data.location;
+                            document.getElementById('availability').textContent = data.availability;
+                            document.getElementById('role').textContent = data.role;
+                            document.getElementById('gender').textContent = data.gender;
+                            document.getElementById('age').textContent = data.age;
+                        })
+                        .catch(error => {
+                            console.error('Error fetching user profile:', error);
+                            // Handle errors if necessary
+                        });
+                } catch (error) {
+                    console.error('Error decoding token:', error);
+                }
+            } else {
+                console.error('Token not found');
+            }
+        }
+
+        // Call fetchUserProfile function when the page loads
+        window.onload = fetchUserProfile;
+    </script>
+</body>
+</html>
