@@ -216,18 +216,17 @@ app.post('/api/appointments', async (req, res) => {
             username
         });
 
-        console.log("Insertion result:", result.acknowledged); // For debugging
+        console.log("Insertion result:", result.status); // For debugging
 
-        // Check if the insertion was successful
-        if (result.acknowledged === true) {
-            // Return the newly created appointment
-            res.json({ status: 'ok', data: result.ops[0] });
+        if (result.acknowledged) {
+            console.log("Appointment scheduled successfully");
+            res.json({ status: 'ok', message: 'Appointment scheduled successfully!' });
         } else {
-            console.error('Failed to create appointment: No operation results found');
-            res.status(500).json({ status: 'error', error: 'Failed to create appointment: No operation results found' });
+            console.log("Failed to schedule appointment");
+            res.status(500).json({ message: 'Failed to schedule appointment. Please try again later.' });
         }
     } catch (error) {
-      
+        console.error('Error creating appointment:', error); 
     }
 });
 

@@ -119,7 +119,7 @@
 
                 // Prepare data to send to server
                 const appointmentData = {
-                    dateTime: document.getElementById('date-time').value ,
+                    dateTime: document.getElementById('date-time').value,
                     userId: getUserId(), // Corrected this line
                     username: getUsername()
                 };
@@ -138,11 +138,14 @@
                     if (result.status === 'ok') {
                         alert('Appointment scheduled successfully!');
                     } else {
+                        // Server might return a specific error message in the result, handle it here
+                        console.error('Failed to schedule appointment:', result.error);
                         alert('Failed to schedule appointment. Please try again later.');
                     }
                 } catch (error) {
+                    // This will catch network errors, JSON parsing errors, and any thrown errors
                     console.error('Error scheduling appointment:', error);
-                    alert('An error occurred while scheduling appointment. Please try again later.');
+                    alert('An error occurred while scheduling the appointment. Please try again later.');
                 }
             });
         }
