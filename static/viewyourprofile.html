@@ -1,101 +1,21 @@
+<!-- browse-profile.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Profile</title>
-    <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
-    <style>
-        /* Add your styling here */
-        .container {
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .profile-info {
-            margin-bottom: 10px;
-        }
-
-        .profile-info label {
-            font-weight: bold;
-        }
-
-        .profile-info p {
-            margin: 5px 0;
-        }
-    </style>
+    <!-- Head content -->
+    <link rel="stylesheet" href="browseprofiles.css">
 </head>
 
 <body>
 
-    <h1>View Profile</h1>
-
-    <div class="container" id="profile-container">
-        <!-- Profile information will be displayed here -->
+    <div class="container">
+        <h1>Your Profile</h1>
+        <!-- Profile cards will be dynamically added here using JavaScript -->
     </div>
 
-    <script>
-        // Function to retrieve profile information of the currently logged-in user
-        async function fetchProfileInfo() {
-            const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
-
-            // Decode the JWT token to extract user information
-            if (token) {
-                try {
-                    const decodedToken = jwt_decode(token);
-                    console.log("Decoded Token:", decodedToken);
-
-                    // Assuming the decoded token contains the necessary profile information
-                    const profileInfo = {
-                        name: decodedToken.name,
-                        location: decodedToken.location,
-                        availability: decodedToken.availability,
-                        role: decodedToken.role,
-                        gender: decodedToken.gender,
-                        age: decodedToken.age
-                    };
-
-                    return profileInfo;
-                } catch (error) {
-                    console.error('Error decoding token:', error);
-                    return null;
-                }
-            } else {
-                console.error('Token not found');
-                return null;
-            }
-        }
-
-        // Function to display profile information on the page
-        async function displayProfileInfo() {
-            const profileContainer = document.getElementById('profile-container');
-            if (profileContainer) {
-                const profileInfo = await fetchProfileInfo();
-
-                if (profileInfo) {
-                    // Create HTML elements to display profile information
-                    for (const [key, value] of Object.entries(profileInfo)) {
-                        const profileItem = document.createElement('div');
-                        profileItem.classList.add('profile-info');
-                        profileItem.innerHTML = `<label>${key.charAt(0).toUpperCase() + key.slice(1)}:</label><p>${value}</p>`;
-                        profileContainer.appendChild(profileItem);
-                    }
-                } else {
-                    // Display an error message if profile information cannot be retrieved
-                    profileContainer.innerHTML = '<p>Error: Failed to fetch profile information.</p>';
-                }
-            }
-        }
-
-        // Call the function to display profile information when the page loads
-        window.onload = displayProfileInfo;
-    </script>
-
+    <script src="/script.js"></script>  
 </body>
 
 </html>
