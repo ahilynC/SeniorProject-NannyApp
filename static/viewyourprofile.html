@@ -1,103 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Profile</title>
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #ab8fa5; /* Updated background color */
-        }
+        /* Add your styling here */
         .container {
-            max-width: 800px;
-            margin: 20px auto;
-            background-color: #fff;
+            max-width: 400px;
+            margin: 0 auto;
             padding: 20px;
+            border: 1px solid #ccc;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        h1 {
-            text-align: center;
-        }
+
         .profile-info {
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
+
         .profile-info label {
             font-weight: bold;
         }
+
         .profile-info p {
             margin: 5px 0;
         }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>View Profile</h1>
-        <div class="profile-info">
-            <label for="name">Name:</label>
-            <p id="name"></p>
-        </div>
-        <div class="profile-info">
-            <label for="location">Location:</label>
-            <p id="location"></p>
-        </div>
-        <div class="profile-info">
-            <label for="availability">Availability:</label>
-            <p id="availability"></p>
-        </div>
-        <div class="profile-info">
-            <label for="role">Role:</label>
-            <p id="role"></p>
-        </div>
-        <div class="profile-info">
-            <label for="gender">Gender:</label>
-            <p id="gender"></p>
-        </div>
-        <div class="profile-info">
-            <label for="age">Age:</label>
-            <p id="age"></p>
-        </div>
+
+    <h1>View Profile</h1>
+
+    <div class="container" id="profile-container">
+        <!-- Profile information will be displayed here -->
     </div>
 
     <script>
-        function fetchUserProfile() {
-            const token = localStorage.getItem('token');
+        // Function to retrieve profile information of the currently logged-in user
+        async function fetchProfileInfo() {
+            const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
+
+            // Decode the JWT token to extract user information
             if (token) {
                 try {
                     const decodedToken = jwt_decode(token);
-                    // Assuming the decoded token contains the user ID
-                    const userId = decodedToken.id;
+                    console.log("Decoded Token:", decodedToken);
 
-                    // Fetch user profile data from the server using the user ID
-                    fetch(`/api/users/${userId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            // Update profile information on the page
-                            document.getElementById('name').textContent = data.name;
-                            document.getElementById('location').textContent = data.location;
-                            document.getElementById('availability').textContent = data.availability;
-                            document.getElementById('role').textContent = data.role;
-                            document.getElementById('gender').textContent = data.gender;
-                            document.getElementById('age').textContent = data.age;
-                        })
-                        .catch(error => {
-                            console.error('Error fetching user profile:', error);
-                            // Handle errors if necessary
-                        });
+                    // Assuming the decoded token contains the necessary profile information
+                    const profileInfo = {
+                        name: decodedToken.name,
+                        location: decodedToken.location,
+                        availability: decodedToken.availability,
+                        role: decodedToken.role,
+                        gender: decodedToken.gender,
+                        age: decodedToken.age
+                    };
+
+                    return profileInfo;
                 } catch (error) {
                     console.error('Error decoding token:', error);
+                    return null;
                 }
             } else {
                 console.error('Token not found');
+                return null;
             }
         }
 
-        // Call fetchUserProfile function when the page loads
-        window.onload = fetchUserProfile;
+        // Function to display profile information on the page
+        async function displayProfileInfo() {
+            const profileContainer = document.getElementById('profile-container');
+            if (profileContainer) {
+                const profileInfo = await fetchProfileInfo();
+
+                if (profileInfo) {
+                    // Create HTML elements to display profile information
+                    for (const [key, value] of Object.entries(profileInfo)) {
+                        const profileItem = document.createElement('div');
+                        profileItem.classList.add('profile-info');
+                        profileItem.innerHTML = `<label>${key.charAt(0).toUpperCase() + key.slice(1)}:</label><p>${value}</p>`;
+                        profileContainer.appendChild(profileItem);
+                    }
+                } else {
+                    // Display an error message if profile information cannot be retrieved
+                    profileContainer.innerHTML = '<p>Error: Failed to fetch profile information.</p>';
+                }
+            }
+        }
+
+        // Call the function to display profile information when the page loads
+        window.onload = displayProfileInfo;
     </script>
+
 </body>
+
 </html>
