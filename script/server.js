@@ -71,6 +71,7 @@ app.post('/api/change-password', async (req, res) => {
 	}
 });
 
+
 app.post('/api/login', async (req, res) => {
 	try {
 		const { username, password } = req.body;
@@ -101,7 +102,9 @@ app.post('/api/login', async (req, res) => {
 				JWT_SECRET
 			);
 
+            console.log('Token generated:', token);
 			return res.json({ status: 'ok', data: token });
+
 		}
 
 		console.log('Password did not match');

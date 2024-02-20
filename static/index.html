@@ -112,8 +112,10 @@
 
             if (result.status === 'ok') {
                 // Everything went fine
+                localStorage.setItem('token', result.data);
+                console.log('Token:', result.data);
                 // Redirect to home page after successful login
-            	window.location.href = '/servicesoffered.html';
+            	window.location.href = '/browseprofiles.html';
 
             } else {
                 alert(result.error);

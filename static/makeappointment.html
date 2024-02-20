@@ -62,14 +62,7 @@
 
     <script>
 
-        function storeToken(token) {
-            localStorage.setItem('token', token);
-        }
-
-        // Function to store JWT token in session storage
-        function storeTokenInSession(token) {
-            sessionStorage.setItem('token', token);
-        }
+        
         function getUserId() {
             // Retrieve the JWT token from local storage or session storage
             const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
