@@ -66,7 +66,7 @@ async function fetchProfiles(username) {
 
 
 
-function filterProfiles(profiles, username) {
+function filterProfiles(profiles, myusername) {
     const container = document.querySelector('.container');
 
     profiles.forEach(profile => {
@@ -105,7 +105,7 @@ function filterProfiles(profiles, username) {
         profileInfo.appendChild(gender);
         profileInfo.appendChild(age);
         profileCard.appendChild(profileInfo);
-        if (username == getUsername()) {
+        if (myusername == profile.username) {
             container.appendChild(profileCard);
         }
 
