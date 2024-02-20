@@ -1,4 +1,3 @@
-
 async function fetchProfiles() {
     try {
         const response = await fetch('/api/profiles');
@@ -13,6 +12,7 @@ async function fetchProfiles() {
         console.error('Error fetching profiles:', error);
     }
 }
+
 function displayProfiles(profiles) {
     const container = document.querySelector('.container');
 
