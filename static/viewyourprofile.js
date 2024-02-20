@@ -1,10 +1,59 @@
-async function fetchProfiles() {
+function storeToken(token) {
+    localStorage.setItem('token', token);
+}
+
+// Function to store JWT token in session storage
+function storeTokenInSession(token) {
+    sessionStorage.setItem('token', token);
+}
+function getUserId() {
+    // Retrieve the JWT token from local storage or session storage
+    const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
+
+    // Decode the JWT token to extract user information
+    if (token) {
+        try {
+            // Decode the token
+            const decodedToken = jwt_decode(token);
+            console.log("Decoded Token:", decodedToken);
+            // Assuming the decoded token contains the user ID
+            const userId = decodedToken.id;
+            return userId;
+        } catch (error) {
+            console.error('Error decoding token:', error);
+            return null;
+        }
+    } else {
+        console.error('Token not found');
+        return null;
+    }
+}
+
+// Function to get username from the JWT token
+function getUsername() {
+    const token = localStorage.getItem('token');
+    if (token) {
+        try {
+            const decodedToken = jwt_decode(token);
+            // Adjust the property name based on your JWT structure
+            return decodedToken.username; // Assuming 'username' is the property name
+        } catch (error) {
+            console.error('Error decoding token:', error);
+            return null;
+        }
+    } else {
+        console.error('Token not found');
+        return null;
+    }
+}
+const myUserName = getUsername();
+async function fetchProfiles(username) {
     try {
         const response = await fetch('/api/profiles');
         const result = await response.json();
 
         if (result.status === 'ok') {
-            displayProfiles(result.data);
+            filterProfiles(result.data, username);
         } else {
             console.error('Error fetching profiles:', result.error);
         }
@@ -13,7 +62,9 @@ async function fetchProfiles() {
     }
 }
 
-function displayProfiles(profiles) {
+
+
+function filterProfiles(profiles, myusername) {
     const container = document.querySelector('.container');
 
     profiles.forEach(profile => {
@@ -51,10 +102,12 @@ function displayProfiles(profiles) {
         profileInfo.appendChild(role);
         profileInfo.appendChild(gender);
         profileInfo.appendChild(age);
-
         profileCard.appendChild(profileInfo);
+        if (myusername == profile.username) {
+            container.appendChild(profileCard);
+        }
 
-        container.appendChild(profileCard);
+
     })
     if (container) {
         container.addEventListener('click', (event) => {
@@ -72,5 +125,6 @@ function displayProfiles(profiles) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    fetchProfiles();
+    const usrnm = getUsername()
+    fetchProfiles(usrnm);
 });

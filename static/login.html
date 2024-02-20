@@ -1,98 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login / Register</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
         }
 
-        #login-container {
-            background-color: #fff;
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: auto;
             padding: 20px;
+            background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        #login-form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            margin-bottom: 8px;
+            display: none; /* Initially hide both forms */
         }
 
         input {
+            width: 100%;
             padding: 10px;
-            margin-bottom: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
         }
 
-        button {
-            padding: 10px;
-            background-color: #ae83bb88;
+        input[type="submit"] {
+            background-color: #4caf50;
             color: #fff;
-            border: none;
-            border-radius: 4px;
             cursor: pointer;
         }
 
-        button:hover {
-            background-color: #8626aca1;
+        #login-form {
+            display: block; /* Display login form initially */
         }
     </style>
 </head>
+
 <body>
-    <div id="login-container">
-        <h2>Login</h2>
+    <h1>Login / Register</h1>
 
-<form id="login-form">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
+    <!-- Login Form -->
+    <form id="login-form">
+        <input type="text" autocomplete="off" id="username" placeholder="Username" />
+        <input type="password" autocomplete="off" id="password" placeholder="Password" />
+        <input type="submit" value="Login" />
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
+        <p>Don't have an account? <a href="#" onclick="toggleForm('register-form')">Register here</a>.</p>
+    </form>
 
-    <button type="button" onclick="login()" id="login-button">Login</button>
-    <p id="error-message" style="color: red;"></p>
-</form>
+    <!-- Registration Form -->
+    <form id="register-form">
+        <input type="text" autocomplete="off" id="reg-username" placeholder="Username" required />
+        <input type="password" autocomplete="off" id="reg-password" placeholder="Password" required />
+        <input type="text" autocomplete="off" id="name" placeholder="Full Name" required />
+        <input type="text" autocomplete="off" id="location" placeholder="Location" required />
+        <select id="availability" required>
+            <option value="full-time">Full Time</option>
+            <option value="part-time">Part Time</option>
+        </select>
+        <select id="role" required>
+            <option value="nanny">Looking for a Nanny</option>
+            <option value="parent">Wanting to be a Nanny</option>
+        </select>
+        <select id="gender" required>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+        <input type="number" id="age" placeholder="Age" required />
+        <input type="submit" value="Register" />
 
-<script>
- 
-async function login() {
-    var username = document.getElementById("username").value;
-    var password = document.getElementById("password").value;
+        <p>Already have an account? <a href="#" onclick="toggleForm('login-form')">Login here</a>.</p>
+    </form>
 
-    // Check if the provided username and password match the desired credentials
-    if (username === 'example' && password === 'password') {
-        // Display a success message
-        document.getElementById("error-message").style.color = 'green';
-        document.getElementById("error-message").innerText = 'Login successful! Redirecting...';
+    <script>
+        // Your existing script for login
+        const loginForm = document.getElementById('login-form');
+        loginForm.addEventListener('submit', login);
 
-        // You may want to redirect the user or perform other actions on successful login
-        // For now, let's simulate a redirect after 2 seconds
-        setTimeout(() => {
-            window.location.href = '/dashboard'; // Replace '/dashboard' with your actual redirect URL
-        }, 2000);
-    } else {
-        // If unsuccessful, display an error message
-        document.getElementById("error-message").style.color = 'red';
-        document.getElementById("error-message").innerText = 'Login failed. Please check your username and password.';
-    }
-}
-</script>
-<!-- ... (your existing HTML) ... -->
+        async function login(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
 
-    
+            const result = await fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username,
+                    password
+                })
+            }).then((res) => res.json())
+
+            if (result.status === 'ok') {
+                // Everything went fine
+                // Redirect to home page after successful login
+            	window.location.href = '/servicesoffered.html';
+
+            } else {
+                alert(result.error);
+            }
+        }
+
+        // Additional script for registration
+        const registerForm = document.getElementById('register-form');
+        registerForm.addEventListener('submit', registerUser);
+
+        async function registerUser(event) {
+            event.preventDefault();
+            const regUsername = document.getElementById('reg-username').value;
+            const regPassword = document.getElementById('reg-password').value;
+            const name = document.getElementById('name').value;
+            const location = document.getElementById('location').value;
+            const availability = document.getElementById('availability').value;
+            const role = document.getElementById('role').value;
+            const gender = document.getElementById('gender').value;
+            const age = document.getElementById('age').value;
+
+            const result = await fetch('/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: regUsername,
+                    password: regPassword,
+                    name: name,
+                    location: location,
+                    availability: availability,
+                    role: role,
+                    gender: gender,
+                    age: age
+                })
+            }).then((res) => res.json())
+
+            if (result.status === 'ok') {
+                // Everything went fine
+                // Redirect to home page after successful login
+            	window.location.href = '/servicesoffered.html';
+            } else {
+                alert(result.error);
+            }
+        }
+
+        // Function to toggle between login and registration forms
+        function toggleForm(formId) {
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'none';
+
+            const formToDisplay = document.getElementById(formId);
+            formToDisplay.style.display = 'block';
+        }
+    </script>
 </body>
+
 </html>
