@@ -20,6 +20,8 @@ function displayProfiles(profiles) {
         const profileCard = document.createElement('div');
         profileCard.classList.add('profile-card');
 
+        profileCard.dataset.username = profile.username; 
+
         const profileInfo = document.createElement('div');
         profileInfo.classList.add('profile-info');
 
@@ -61,16 +63,36 @@ function displayProfiles(profiles) {
             const profileCard = event.target.closest('.profile-card');
             if (profileCard) {
                 // Retrieve the username from the clicked profile card
-                const username = profileCard.dataset.username;
+                const nannysUsername = profileCard.dataset.username;
+                console.log(nannysUsername)
                 // Redirect to the appointment page with the selected profile's username
-                window.location.href = `/makeappointment.html?profile=${username}`;
+                window.location.href = `/makeappointment.html?profile=${nannysUsername}`;
             }
         });
     } else {
         console.error('Container element not found');
     }
 }
+function getNannyUsernameFromURL() {
+    // Create a URLSearchParams object from the current window location search string
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Get the 'profile' query parameter value, which holds the nanny's username
+    const nannyUsername = urlParams.get('profile');
+    
+    return nannyUsername;
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchProfiles();
+
+    const nannyUsername = getNannyUsernameFromURL();
+    if (nannyUsername) {
+        console.log("Nanny's Username:", nannyUsername);
+        // Here you can call your function to make an appointment with the nanny's username
+        // For example:
+        // makeAppointmentWithNanny(nannyUsername);
+    } else {
+        console.error('Nanny username not found in the URL');
+    }
 });
