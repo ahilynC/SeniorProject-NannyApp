@@ -62,7 +62,7 @@
 
     <script>
 
-        
+
         function getUserId() {
             // Retrieve the JWT token from local storage or session storage
             const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
@@ -104,6 +104,11 @@
             }
         }
 
+        function getNannyUsernameFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('profile');
+        }
+
         // Add event listener to the appointment form only if it's found
         const appointmentForm = document.getElementById('appointment-form');
         if (appointmentForm) {
@@ -114,9 +119,13 @@
                 const appointmentData = {
                     dateTime: document.getElementById('date-time').value,
                     userId: getUserId(), // Corrected this line
-                    username: getUsername()
+                    username: getUsername(),
+                    nannyUsername: getNannyUsernameFromURL()
                 };
-
+                if (!appointmentData.userId || !appointmentData.nannyUsername) {
+                    console.error('Missing data: User ID or Nanny Username is undefined.');
+                    return; // Prevent form submission
+                }
                 console.log('Sending appointment data:', appointmentData);
                 // Send appointment data to server
                 try {

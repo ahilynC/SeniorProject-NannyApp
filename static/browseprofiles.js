@@ -5,6 +5,7 @@ async function fetchProfiles() {
 
         if (result.status === 'ok') {
             displayProfiles(result.data);
+            console.log("Fetched profiles:", result.data);
         } else {
             console.error('Error fetching profiles:', result.error);
         }
@@ -20,7 +21,8 @@ function displayProfiles(profiles) {
         const profileCard = document.createElement('div');
         profileCard.classList.add('profile-card');
 
-        profileCard.dataset.username = profile.username; 
+        profileCard.dataset.username = profile.username;
+        console.log("Displaying profile:", profile.username);  
 
         const profileInfo = document.createElement('div');
         profileInfo.classList.add('profile-info');
@@ -60,11 +62,12 @@ function displayProfiles(profiles) {
     })
     if (container) {
         container.addEventListener('click', (event) => {
+            // Corrected to find the closest `.profile-card` instead of `.container`
             const profileCard = event.target.closest('.profile-card');
             if (profileCard) {
                 // Retrieve the username from the clicked profile card
                 const nannysUsername = profileCard.dataset.username;
-                console.log(nannysUsername)
+                console.log(nannysUsername);
                 // Redirect to the appointment page with the selected profile's username
                 window.location.href = `/makeappointment.html?profile=${nannysUsername}`;
             }
