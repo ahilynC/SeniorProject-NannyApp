@@ -185,6 +185,18 @@ app.get('/api/profiles', async (req, res) => {
     }
 });
 
+// Endpoint to fetch appointments
+app.get('/api/appointments', async (req, res) => {
+    try {
+        const db = await connectToDatabase();
+        const profiles = await db.collection('appointments').find({ role: 'parent' }).toArray();
+        res.json({ status: 'ok', data: appointments });
+    } catch (error) {
+        console.error('Error fetching appointments:', error);
+        res.json({ status: 'error', error: 'Failed to fetch appointments' });
+    }
+});
+
 // API endpoint to create a new appointment
 app.post('/api/appointments', async (req, res) => {
     try {
@@ -195,6 +207,7 @@ app.post('/api/appointments', async (req, res) => {
         console.error("Database connection failed", error);
         // Handle error appropriately
     }
+
     
     try {
         // Extract appointment details from the request body

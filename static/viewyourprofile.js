@@ -6,7 +6,6 @@ function storeToken(token) {
 function storeTokenInSession(token) {
     sessionStorage.setItem('token', token);
 }
-
 function getUserId() {
     // Retrieve the JWT token from local storage or session storage
     const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
@@ -47,9 +46,7 @@ function getUsername() {
         return null;
     }
 }
-
 const myUserName = getUsername();
-
 async function fetchProfiles(username) {
     try {
         const response = await fetch('/api/profiles');
@@ -65,37 +62,9 @@ async function fetchProfiles(username) {
     }
 }
 
-function fetchAppointmentsForUser(userId) {
-    return fetch(`/api/appointments?userId=${userId}`)
-        .then(response => response.json())
-        .catch(error => {
-            console.error('Error fetching appointments:', error);
-            return [];
-        });
-}
 
-async function fetchProfilesAndAppointments(username) {
-    try {
-        const response = await fetch('/api/profiles');
-        const result = await response.json();
 
-        if (result.status === 'ok') {
-            const userId = getUserId();
-            if (userId) {
-                const appointments = await fetchAppointmentsForUser(userId);
-                filterProfilesAndAppointments(result.data, username, appointments);
-            } else {
-                console.error('User ID not found');
-            }
-        } else {
-            console.error('Error fetching profiles:', result.error);
-        }
-    } catch (error) {
-        console.error('Error fetching profiles:', error);
-    }
-}
-
-function filterProfilesAndAppointments(profiles, myusername, appointments) {
+function filterProfiles(profiles, myusername) {
     const container = document.querySelector('.container');
 
     profiles.forEach(profile => {
@@ -134,26 +103,12 @@ function filterProfilesAndAppointments(profiles, myusername, appointments) {
         profileInfo.appendChild(gender);
         profileInfo.appendChild(age);
         profileCard.appendChild(profileInfo);
-        
         if (myusername == profile.username) {
             container.appendChild(profileCard);
         }
 
-        // Show appointments for the current user
-        appointments.forEach(appointment => {
-            if (appointment.userId === getUserId() && appointment.nannyUsername === profile.username) {
-                const appointmentInfo = document.createElement('div');
-                appointmentInfo.classList.add('appointment-info');
 
-                const dateTime = document.createElement('p');
-                dateTime.textContent = `Date and Time: ${appointment.dateTime}`;
-
-                appointmentInfo.appendChild(dateTime);
-                profileCard.appendChild(appointmentInfo);
-            }
-        });
-    });
-
+    })
     if (container) {
         container.addEventListener('click', (event) => {
             const profileCard = event.target.closest('.profile-card');
@@ -170,6 +125,6 @@ function filterProfilesAndAppointments(profiles, myusername, appointments) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const usrnm = getUsername();
-    fetchProfilesAndAppointments(usrnm);
+    const usrnm = getUsername()
+    fetchProfiles(usrnm);
 });
