@@ -189,7 +189,7 @@ app.get('/api/profiles', async (req, res) => {
 app.get('/api/appointments', async (req, res) => {
     try {
         const db = await connectToDatabase();
-        const profiles = await db.collection('appointments').find({ role: 'parent' }).toArray();
+        const appointments = await db.collection('appointments').find({ role: 'parent' }).toArray();
         res.json({ status: 'ok', data: appointments });
     } catch (error) {
         console.error('Error fetching appointments:', error);
