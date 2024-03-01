@@ -4,56 +4,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
     <title>Login / Register</title>
-    <a href="servicesoffered.html" class="back-button">Back to Homepage</a>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+    <link rel="stylesheet" href="index.css">
 
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        form {
-            max-width: 400px;
-            margin: auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: none; /* Initially hide both forms */
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            box-sizing: border-box;
-        }
-
-        input[type="submit"] {
-            background-color: #4caf50;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        #login-form {
-            display: block; /* Display login form initially */
-        }
-    </style>
 </head>
 
 <body>
@@ -118,7 +71,7 @@
                 localStorage.setItem('token', result.data);
                 console.log('Token:', result.data);
                 // Redirect to home page after successful login
-            	window.location.href = '/browseprofiles.html';
+                window.location.href = '/servicesoffered.html';
 
             } else {
                 alert(result.error);
@@ -160,7 +113,7 @@
             if (result.status === 'ok') {
                 // Everything went fine
                 // Redirect to home page after successful login
-            	window.location.href = '/servicesoffered.html';
+                window.location.href = '/servicesoffered.html';
             } else {
                 alert(result.error);
             }
