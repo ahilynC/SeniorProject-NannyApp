@@ -98,3 +98,142 @@ blockquote {
 }
 
 /* Footer styles */
+footer {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    padding: 20px 0;
+}
+
+/* Form styles */
+form {
+    width: 300px;
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    border-radius: 8px;
+    background-color: var(--secondary-color);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: var(--button-background);
+    color: var(--secondary-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--button-hover-background);
+}
+
+p {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Profile card styles */
+.profile-card {
+    width: 300px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-card img {
+    width: 100%;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.profile-info {
+    padding: 20px;
+}
+
+.profile-info h2 {
+    margin-bottom: 10px;
+}
+
+.profile-info p {
+    margin-bottom: 5px;
+}
+
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 16px;
+    z-index: 1000; /* Ensure it appears above other content */
+}
+
+.back-button:hover {
+    background-color: #555;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+th, td {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 8px;
+}
+th {
+    background-color: #f2f2f2;
+}
+td:hover {
+    background-color: #f2f2f2;
+    cursor: pointer;
+}
+.selected {
+    background-color: #b3d9ff;
+}
+#makeAppointmentBtn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.container {
+    overflow: hidden; /* Clear floats */
+}
+
+img {
+    float: left; /* Float the image to the left */
+    margin-right: 20px; /* Add some margin to create space between the image and text */
+    width: 300%;
+    max-width: 300px; /* Example maximum width */
+    height: auto; /* Maintain aspect ratio */
+    border: 1px solid #ccc;
+}
