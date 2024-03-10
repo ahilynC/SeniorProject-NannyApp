@@ -47,6 +47,7 @@ function getUsername() {
     }
 }
 const myUserName = getUsername();
+
 async function fetchAppointments(username) {
     try {
         const response = await fetch('/api/appointments');
@@ -78,23 +79,21 @@ function filterAppointments(appointments, myusername) {
         username.textContent = `Username: ${appointment.username}`;
 
         const userId = document.createElement('p');
-        gender.textContent = `User ID: ${appointment.userId}`;
+        userId.textContent = `User ID: ${appointment.userId}`;
 
         const dateTime = document.createElement('p');
-        age.textContent = `Date: ${appointment.dateTime}`;
+        dateTime.textContent = `Date: ${appointment.dateTime}`;
 
         appointmentInfo.appendChild(username);
         appointmentInfo.appendChild(userId);
         appointmentInfo.appendChild(dateTime);
         appointmentCard.appendChild(appointmentInfo);
-        if (myusername == appointment.username) {
+        if (myusername === appointment.username) { // Use strict equality operator
             container.appendChild(appointmentCard);
         }
-
-
-    })
-
+    });
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const usrnm = getUsername()
