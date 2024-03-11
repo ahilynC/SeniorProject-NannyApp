@@ -5,14 +5,42 @@
 }
 
 .profile-card {
-    border: 1px solid #ccc;
+    background-color: #6cadf2;
+    border: 1px solid; /* #ccc;*/
     border-radius: 8px;
     margin: 10px;
     padding: 10px;
     display: inline-block;
     width: 200px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #ab8fa5; 
+    box-shadow: 0 4px 8px #307840;
+    /*background-color: #ab8fa5; 
+}
+/* Reset styles */
+:root {
+    --primary-color: #307840;
+    --secondary-color: #fff;
+    --accent-color: #ffd700;
+    --border-color: #ccc;
+    --background-color: #6cadf2;
+    --text-color: #333;
+    --button-background: #333;
+    --button-hover-background: #555;
+}
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 16px;
+    z-index: 1000; /* Ensure it appears above other content */
+}
+
+.back-button:hover {
+    background-color: #555;
 }
 
 img {
@@ -28,4 +56,4 @@ h2 {
 
 p {
     margin: 5px 0;
-}
+}}
